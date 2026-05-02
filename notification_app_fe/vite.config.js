@@ -6,11 +6,11 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [react()],
     server: {
-      port: 5173,
-      strictPort: false
+      port: 3000,
+      strictPort: true
     },
     define: {
-      __VITE_API_BASE_URL__: JSON.stringify(env.VITE_API_BASE_URL || 'http://20.207.122.201/evaluation-service'),
+      __VITE_API_BASE_URL__: JSON.stringify(env.VITE_API_BASE_URL || 'http://localhost:4000/evaluation-service'),
       __VITE_API_TOKEN__: JSON.stringify(env.VITE_API_TOKEN || null)
     }
   }

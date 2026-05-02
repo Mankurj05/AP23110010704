@@ -18,8 +18,8 @@ const getApiBaseUrl = () => {
   if (typeof window !== 'undefined' && window.__VITE_API_BASE_URL__) {
     return window.__VITE_API_BASE_URL__
   }
-  // Use protected API as default (not localhost)
-  return 'http://20.207.122.201/evaluation-service'
+  // Use local backend as the default for port 4000 development.
+  return 'http://localhost:4000/evaluation-service'
 }
 
 const getApiToken = () => {
@@ -50,8 +50,8 @@ export default function NotificationsPage(){
       params.set('page', String(page))
       if(typeFilter) params.set('notification_type', typeFilter)
       const url = `${NOTIF_API}?${params.toString()}`
-      const headers = { 'Content-Type': 'application/json' }
-      if(API_TOKEN) headers['Authorization'] = `Bearer ${API_TOKEN}`
+      const headers = {}
+      if(API_TOKEN && !NOTIF_API.includes('localhost')) headers['Authorization'] = `Bearer ${API_TOKEN}`
       const res = await fetch(url, { headers })
       if(!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
