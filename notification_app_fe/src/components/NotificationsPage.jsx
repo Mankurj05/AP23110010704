@@ -3,8 +3,6 @@ import { Box, TextField, Button, MenuItem, Grid, Card, CardContent, Typography, 
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import { logEvent } from '../../../logging_middleware/logger'
 
-const NOTIF_API = 'http://localhost:4000/evaluation-service/notifications'
-
 const TYPE_OPTIONS = ['Event', 'Result', 'Placement']
 
 const WEIGHT = { 'Placement': 3, 'Result': 2, 'Event': 1 }
@@ -14,6 +12,24 @@ function computeScore(n) {
   const ts = new Date(n.Timestamp).getTime() || 0
   return weight * 1e12 + ts
 }
+
+// Get API config safely - works in both browser and Jest
+const getApiBaseUrl = () => {
+  if (typeof window !== 'undefined' && window.__VITE_API_BASE_URL__) {
+    return window.__VITE_API_BASE_URL__
+  }
+  return 'http://localhost:4000/evaluation-service'
+}
+
+const getApiToken = () => {
+  if (typeof window !== 'undefined' && window.__VITE_API_TOKEN__) {
+    return window.__VITE_API_TOKEN__
+  }
+  return null
+}
+
+const NOTIF_API = `${getApiBaseUrl()}/notifications`
+const API_TOKEN = getApiToken()
 
 export default function NotificationsPage(){
   const [limit, setLimit] = useState(10)
@@ -32,7 +48,9 @@ export default function NotificationsPage(){
       params.set('page', String(page))
       if(typeFilter) params.set('notification_type', typeFilter)
       const url = `${NOTIF_API}?${params.toString()}`
-      const res = await fetch(url)
+      const headers = { 'Content-Type': 'application/json' }
+      if(API_TOKEN) headers['Authorization'] = `Bearer ${API_TOKEN}`
+      const res = await fetch(url, { headers })
       if(!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
       const items = (data.notifications||[]).map(n=>({
