@@ -13,18 +13,20 @@ function computeScore(n) {
   return weight * 1e12 + ts
 }
 
-// Get API config safely - works in both browser and Jest
+// Get API config - protected API by default
 const getApiBaseUrl = () => {
   if (typeof window !== 'undefined' && window.__VITE_API_BASE_URL__) {
     return window.__VITE_API_BASE_URL__
   }
-  return 'http://localhost:4000/evaluation-service'
+  // Use protected API as default (not localhost)
+  return 'http://20.207.122.201/evaluation-service'
 }
 
 const getApiToken = () => {
   if (typeof window !== 'undefined' && window.__VITE_API_TOKEN__) {
     return window.__VITE_API_TOKEN__
   }
+  // Token from environment or window global
   return null
 }
 

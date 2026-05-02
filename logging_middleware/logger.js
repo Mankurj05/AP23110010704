@@ -1,7 +1,8 @@
 function getLogConfig() {
-  const baseUrl = window.__VITE_API_BASE_URL__
+  const baseUrl = window.__VITE_API_BASE_URL__ || 'http://20.207.122.201/evaluation-service'
   const token = window.__VITE_API_TOKEN__
-  if (baseUrl && baseUrl !== 'http://localhost:4000/evaluation-service') {
+  // Only send logs to server if using protected API (not localhost)
+  if (baseUrl && baseUrl.includes('20.207.122.201')) {
     return {
       LOG_API: `${baseUrl}/logs`,
       API_TOKEN: token
