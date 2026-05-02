@@ -1,0 +1,32 @@
+{
+  "name": "campus-notifications-fe",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 3000 --strictPort",
+    "start": "vite",
+    "test": "jest --config ./jest.config.cjs --runInBand"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@mui/material": "^5.14.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "jest": "^29.6.1",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "babel-jest": "^29.6.1",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.5",
+    "whatwg-fetch": "^3.6.2"
+    ,"jest-environment-jsdom": "^29.6.1"
+  }
+}
